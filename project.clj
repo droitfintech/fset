@@ -1,4 +1,4 @@
-(defproject fset "0.1.0"
+(defproject fset "0.1.1-SNAPSHOT"
   :description "A faster implementation of clojure.set and additional relational algebra functions."
   :url "http://example.com/FIXME"
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
