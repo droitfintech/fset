@@ -1,6 +1,10 @@
-# fset - A Fast Set functions implementation library
+# fset - Fast set/relational library
 
-fset contains a re-implementation of the function in Clojure `core.set` to improve the overall performance of set operations (including relational algebra). Some functions comes with a clojure.set-compatible version and a "native" version that breaks the standard interface to further speed up computation. You can normally just use the compatible interface which has the same name as the relative version in `clojure.set` (for example "intersection"). `fset` also re-implements other non-set related functions from `clojure.core` when they are used by set functions.
+fset is a re-implementation of the functions in Clojure [core.set](https://clojure.github.io/clojure/#clojure.set) that improves performance of set operations (including relational algebra functions like `join`, `select`, `project` etc.).
+
+All functions are compatible with `clojure.set`. There are minor differences, for example requiring input arguments to actually implement `IPersistentSet` (`clojure.set` would sometimes allow other collection types with unpredictable results, so this is sort of a feature). The library also contains additional functions with a different interface to those in `clojure.set` to further improve speed. These functions have the same name of those in `clojure.set` but ending with "*" to indicate lack of compatibility. For example, `fset` contains both `index` and `index*`: `index` is faster than `clojure.set/index` and has the same interface. `fset/index*` is even faster than `fset/index` but it breaks compatibility with `clojure.set/index` by returning a mutable `java.util.HashMap` instead of `clojure.lang.PersistentHashMap`.
+
+`fset` also implements other non-set related functions from `clojure.core` when they are instrumental to improve performance on `clojure.set` (this is the case of `fset/select-keys` for example).
 
 ## Usage
 
