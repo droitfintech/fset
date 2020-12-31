@@ -53,14 +53,14 @@ Subset?:
 
 ```clojure
 6.95E-7 cset
-1.48E-7 subset?
+1.48E-7 fset
 ```
 
 Superset?:
 
 ```clojure
 7.11E-7 cset
-1.49E-7 subset?
+1.49E-7 fset
 ```
 
 ### Relation functions
