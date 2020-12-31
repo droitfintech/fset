@@ -15,7 +15,6 @@ pipeline {
         container('jenkins-agent') {
           script {
             sh "lein install"
-            sast()
           }
         }
       }
