@@ -28,7 +28,7 @@ pipelineJob('non-prod/fset/pr') {
           branch('${sha1}')
         }
       }
-      scriptPath('.jenkins/pipelines/Jenkinsfile')
+      scriptPath('.jenkins/pipelines/Jenkinsfile-test')
     }
   }
 }

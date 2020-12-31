@@ -24,7 +24,7 @@ pipeline {
       steps {
         container('jenkins-agent') {
           script {
-            sh "lein deploy"
+            sh "lein do clean, test, deploy"
             archiveArtifacts 'target/**/*.jar'
           }
         }
