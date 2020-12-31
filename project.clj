@@ -15,5 +15,8 @@
           ]
          :dependencies [[org.clojure/test.check "1.1.0"]
                         [criterium "0.4.6"]]}}
-  :repositories {"releases" {:url "https://nexus-repo.dit.droitfintech.net/repository/droit-repo-release/" :sign-releases false}
-                 "snapshots" {:url "https://nexus-repo.dit.droitfintech.net/repository/droit-repo-snapshot/"}})
+  :repositories {"releases" {:url "https://nexus-repo.dit.droitfintech.net/repository/droit-repo-release/"
+                             :sign-releases false
+                             :no-auth true}
+                 "snapshots" {:url "https://nexus-repo.dit.droitfintech.net/repository/droit-repo-snapshot/"
+                              :no-auth true}})
