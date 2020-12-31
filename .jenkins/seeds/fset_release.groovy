@@ -13,9 +13,9 @@ pipelineJob('non-prod/fset/release') {
           remote {
             github('droitfintech/fset', 'ssh')
             credentials('320f42f1-7c12-4a5d-9bbe-0b7f9b022a77')
-            refspec('+refs/heads/master:refs/remotes/origin/master')
+            refspec('+refs/heads/main:refs/remotes/origin/main')
           }
-          branch('*/master')
+          branch('*/main')
         }
       }
       scriptPath('.jenkins/pipelines/Jenkinsfile-build')
