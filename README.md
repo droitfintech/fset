@@ -49,10 +49,14 @@ Difference:
 3.42E-6 fset
 ```
 
+Subset?:
+
 ```clojure
 6.95E-7 cset
 1.48E-7 subset?
 ```
+
+Superset?:
 
 ```clojure
 7.11E-7 cset
