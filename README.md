@@ -24,7 +24,7 @@ Add `[fset 0.1.0]` to your dependencies and then:
 
 ## Perf showcase
 
-Some comparison with `clojure.core/set` functions as measured in `test/fset/bench.clj` with the [Criterium](https://github.com/hugoduncan/criterium) library.
+Some comparison with `clojure.core/set` functions as measured in `test/fset/bench.clj` with the [Criterium](https://github.com/hugoduncan/criterium) library. Smaller numbers mean faster. All results obtained on small-ish sets (10-100 items), the improvement should be bigger on larger sets.
 
 ### Set functions
 
