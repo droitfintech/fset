@@ -5,7 +5,9 @@
     [java.util Collection Iterator HashSet ArrayList Map HashMap Arrays Set]
     [java.lang Iterable]
     [clojure.lang
+     ILookup
      IEditableCollection
+     ITransientCollection
      PersistentHashSet
      PersistentArrayMap
      PersistentHashMap
@@ -34,6 +36,24 @@
       4 (f arg (.next it) (.next it) (.next it) (.next it))
       5 (f arg (.next it) (.next it) (.next it) (.next it) (.next it))
       (g arg items))))
+
+(defn rename-keys
+  "Like clojure.set/rename-keys, just way uglier and 40% faster."
+  [^Map m ^Map kmap]
+  (let [^Iterator it (.iterator ^Iterable kmap)
+        init (let [^Iterator it (.iterator (.keySet kmap))]
+               (loop [^ITransientMap m (.asTransient ^IEditableCollection m)]
+                 (if (.hasNext it)
+                   (do (.without m (.next it)) (recur m))
+                   m)))]
+    (loop [^ITransientMap res init]
+      (if (.hasNext it)
+        (let [^java.util.Map$Entry pair (.next it)
+              k (.getKey pair)]
+          (when (.containsKey m k)
+            (.assoc res (.getValue pair) (.valAt ^ILookup m k)))
+          (recur res))
+        (.persistent res)))))
 
 (defn maps
   "Like `map` but for sets, returning a set."
@@ -178,7 +198,7 @@
 
 (defn intersection
   "Optimized version of `clojure.set/intersection`. It's mostly compatible,
-  but it expects stricyl sets as arguments (which should be the case). However
+  but it expects strict sets as arguments (which should be the case). However
   clojure.set/intersection also accepts other types with unpredictable results."
   ([s1] s1)
   ([^IEditableCollection s1 ^IPersistentSet s2]
@@ -255,7 +275,7 @@
   "Like clojure.set/rename but no meta and optimized. The additional
   arity with k1 k2...kN can be used to rename a known number of keys."
   ([xrel kmap]
-   (maps #(cset/rename-keys % kmap) xrel))
+   (maps #(rename-keys % kmap) xrel))
   ([xrel k1 k2]
    (maps #(let [v (% k1)]
             (-> %
@@ -419,14 +439,15 @@
                    [xrel yrel (map-invert km)]
                    [yrel xrel km])
          idx (index r (vals k))]
-     (reduce
+     (.persistent ^ITransientSet (reduce
        (fn [ret item]
-         (if-let [found (idx (cset/rename-keys (select-keys item (keys k)) k))]
+         (if-let [found (idx (rename-keys (select-keys item (keys k)) k))]
            (reduce
-             (fn [acc ^APersistentMap itm]
-               (conj! acc (.cons itm item))) ret found)
+             (fn [^ITransientCollection acc ^APersistentMap itm]
+               (.conj acc (.cons itm item)))
+             ret found)
            ret))
-       #{} s))))
+       (.asTransient PersistentHashSet/EMPTY) s)))))
 
 (defn subset?
   [^Set set1 ^Set set2]

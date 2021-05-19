@@ -10,6 +10,7 @@
   :profiles
   {:dev {:jvm-opts
          [
+          ; Use this to enable VisualVM startup hook
           ; "-agentpath:/Applications/VisualVM.app/Contents/Resources/visualvm/visualvm/lib/deployed/jdk16/mac/libprofilerinterface.jnilib=/Applications/VisualVM.app/Contents/Resources/visualvm/visualvm/lib,5140"
           ; "-Xverify:none"
           ]

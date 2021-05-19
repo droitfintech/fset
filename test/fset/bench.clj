@@ -7,6 +7,18 @@
 
 (defmacro b [expr] `(first (:mean (quick-benchmark ~expr {}))))
 
+; (deftest ^:bench rename-keys-bench
+;   (let [m (zipmap (range 100) (range 100))
+;         kmap {4 40 14 140 45 450 51 510 60 600 69 690 90 900}]
+;     (is (= (cset/rename-keys m kmap) (fset/rename-keys m kmap)))
+;     ; 3.006680459548847E-6 cset
+;     ; 1.8890617169285616E-6 fset (rename-keys)
+;     (is
+;       (nil?
+;         (println
+;           (b (cset/rename-keys m kmap))
+;           (str "cset\n" (b (fset/rename-keys m kmap)) " fset (rename-keys)\n"))))))
+
 ; (deftest ^:bench maps-bench
 ;   (let [xrel '#{{d d1 c c2 a a3 b b2} {d d2 c c1 a a3 b b3}
 ;                 {d d2 c c2 a a2 b b3} {d d2 c c3 a a2 b b3}
@@ -55,7 +67,7 @@
 ;     (is (= (cset/union s1 s2) (fset/union s1 s2)))
 ;     ; 2.072722684685433E-6 cset
 ;     ; 1.336075779224572E-6 fset
-;     (is (nil? (println (b (cset/union s1 s2)) (str "cset\n" (b (fset/union s1 s2)) " fset\n"))))
+;     (is (nil? (println (b (cset/union s1 s2)) (str "cset\n" (b (fset/union s1 s2)) " fset (union)\n"))))
 ;     ; (is (nil? (println (b (cset/union s1 s2 s3)) (str "cset\n" (b (fset/union s1 s2 s3)) " fset\n"))))
 ;     ; (is (nil? (println (b (cset/union s1 s2 s3 s4)) (str "cset\n" (b (fset/union s1 s2 s3 s4)) " fset\n"))))
 ;     ; (is (nil? (println (b (cset/union s1 s2 s3 s4 s5)) (str "cset\n" (b (fset/union s1 s2 s3 s4 s5)) " fset\n"))))
@@ -77,7 +89,6 @@
 ;           (b (cset/index xrel ks))
 ;           (str "cset\n" (b (fset/index xrel ks)) " fset (index)\n"))))))
 
-; (deftest ^:test-refresh/focus kset-bench
 ; (deftest ^:bench kset-bench
 ;   (let [rel '#{{d d2 c c1 a a3 b b3}
 ;                {d d2 c c2 a a2 b b3}
@@ -136,8 +147,7 @@
 ;       (nil?
 ;         (println
 ;           (b (cset/difference s2 s1))
-;           (str "cset\n" (b (fset/difference s2 s1)) " difference\n"))))
-;     ))
+;           (str "cset\n" (b (fset/difference s2 s1)) " difference\n"))))))
 
 ; (deftest ^:bench select-bench
 ;   (let [xrel '#{{d d1 c c2 a a3 b b2} {d d2 c c1 a a3 b b3}
@@ -164,14 +174,14 @@
 ;     (is (= (cset/project xrel ks) (fset/project* xrel 'a 'b 'c)))
 ;     ; 1.0354762891861535E-5 cset
 ;     ; 0.5515608075685698E-5 project
-;     #_(is
+;     (is
 ;       (nil?
 ;         (println
 ;           (b (cset/project xrel ks))
 ;           (str "cset\n" (b (fset/project xrel ks)) " project\n"))))
 ;     ; 1.0387998330899229E-5 cset
 ;     ; 6.966055805671281E-6 project (WIP)
-;     #_(is
+;     (is
 ;       (nil?
 ;         (println
 ;           (b (cset/project xrel ks))

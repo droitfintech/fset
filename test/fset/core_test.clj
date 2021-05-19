@@ -16,10 +16,8 @@
   [ks]
   (apply gen/hash-map
          (interleave ks
-                     (repeat
-                       (gen/one-of [gen-str
-                                    gen-sym
-                                    gen-kw])))))
+                     (repeatedly
+                       #(gen/one-of [gen-str gen-sym gen-kw])))))
 
 (defn relation
   ([] (relation (gen/sample gen-sym)))
@@ -85,7 +83,8 @@
                       r2 (conj r2 (assoc i2 :a "join-value"))]
                   (= #{(assoc (merge i1 i2) :a "join-value")}
                      (cset/join r1 r2)
-                     (fset/join r1 r2)))))
+                     (fset/join r1 r2)
+                     (fset/join r1 r2 {:a :a})))))
 
 (defspec subset-superset-correctness
   rep
@@ -95,3 +94,10 @@
       (and
         (= true (cset/subset? sub xrel) (fset/subset? sub xrel))
         (= true (cset/superset? xrel sub) (fset/superset? xrel sub))))))
+
+(defspec rename-keys-correctness
+  rep
+  (prop/for-all
+    [m (instance (into (range 400) (gen/sample gen-kw)))
+     kmap (instance (into (range 30) (gen/sample gen-kw)))]
+    (= (cset/rename-keys m kmap) (fset/rename-keys m kmap))))

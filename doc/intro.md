@@ -7,3 +7,8 @@ WIP
 * Use transients throughout.
 * Use java HashMap with the special ABox array-box objects for faster key equality
 * ….
+
+TODO
+
+* cset/rename-keys
+* benchmark for different input sizes
