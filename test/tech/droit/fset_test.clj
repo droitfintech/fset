@@ -1,11 +1,11 @@
-(ns fset.core-test
+(ns tech.droit.fset-test
   (:require
     [clojure.test.check.clojure-test :refer [defspec]]
     [clojure.test.check.generators :as gen]
     [clojure.test.check.properties :as prop]
     [clojure.set :as cset]
     [clojure.string :as string]
-    [fset.core :as fset]))
+    [tech.droit.fset :as fset]))
 
 (def gen-v (gen/vector gen/char-alpha 4 20))
 (def gen-str (gen/fmap string/join gen-v))

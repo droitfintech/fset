@@ -1,4 +1,4 @@
-(ns fset.core
+(ns tech.droit.fset
   (:refer-clojure :exclude [select-keys])
   (:require [clojure.set :as cset])
   (:import
@@ -303,7 +303,7 @@
     (Arrays/hashCode a)))
 
 ;; Pretty print ABox
-(defmethod print-method fset.core.ABox
+(defmethod print-method tech.droit.fset.ABox
   [^ABox abox ^java.io.StringWriter writer]
   (.append writer (str "abox" (into [] (.a abox)))))
 

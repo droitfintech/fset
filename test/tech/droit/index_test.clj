@@ -1,9 +1,9 @@
-(ns fset.index-test
+(ns tech.droit.index-test
   (:import [java.util Map])
   (:require
     [clojure.test :refer :all]
     [criterium.core :refer [bench quick-bench quick-benchmark]]
-    [fset.core :as fset]))
+    [tech.droit.fset :as fset]))
 
 (deftest key-for-values-test
   (is (= [1] (into [] (.a (fset/abox 1)))))

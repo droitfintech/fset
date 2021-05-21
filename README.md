@@ -2,7 +2,7 @@
 
 `fset` is a faster implementation of the functions in Clojure [core.set](https://clojure.github.io/clojure/#clojure.set).
 
-All functions in `fset` are as compatible as possible with `clojure.set`. There are minor differences, for example requiring input arguments to actually implement `IPersistentSet` (while `clojure.set` also allow other collection types as input with [unpredictable results](https://clojuredocs.org/clojure.set/union#example-5b5a7837e4b00ac801ed9e2e), so this is sort of a feature). The library uses [generative tests](https://github.com/droitfintech/fset/blob/main/test/fset/core_test.clj) to verify compatibility with core functions (run with `lein test`).
+All functions in `fset` are as compatible as possible with `clojure.set`. There are minor differences, for example requiring input arguments to actually implement `IPersistentSet` (while `clojure.set` also allows other collection types as input with [unpredictable results](https://clojuredocs.org/clojure.set/union#example-5b5a7837e4b00ac801ed9e2e), so this is sort of a feature). The library uses [generative tests](https://github.com/droitfintech/fset/blob/main/test/fset/core_test.clj) to verify compatibility with core functions (run with `lein test`).
 
 The library also includes functions with a different interface to those in `clojure.set` to further improve speed. These functions are clearly identified by ending with "*". For example, `fset` contains both `index` and `index*`: `index` is already faster than `clojure.set/index` and has the same interface. `fset/index*` is even faster than `fset/index` but it breaks compatibility with `clojure.set/index` by returning a mutable `java.util.HashMap` instead of `clojure.lang.PersistentHashMap`.
 

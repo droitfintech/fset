@@ -2,6 +2,7 @@
 
 ## [0.1.1]
 
+* Namespace renaming
 * Added `fset/rename-keys`
 * Fixed `fset/join` bug for arity-3, added test coverage.
 
