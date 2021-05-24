@@ -1,4 +1,4 @@
-(ns tech.droit.bench
+(ns tech.droit.bench-test
   (:require
     [clojure.test :refer :all]
     [criterium.core :refer [bench quick-bench quick-benchmark benchmark]]
