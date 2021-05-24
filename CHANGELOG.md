@@ -2,7 +2,7 @@
 
 ## [0.1.1]
 
-* Namespace renaming
+* Cleanup: namespace renaming, extract `index.clj` new namespace out of `fset.clj`.
 * Added `fset/rename-keys`
 * Fixed `fset/join` bug for arity-3, added test coverage.
 
