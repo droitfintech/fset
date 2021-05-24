@@ -1,10 +1,10 @@
 (ns tech.droit.fset
   (:refer-clojure :exclude [select-keys])
   (:require [clojure.set :as cset]
-            [tech.droit.index :as index])
+            [tech.droit.fset.index :as index])
   (:import
     [java.util Collection Iterator HashSet ArrayList Map HashMap Arrays Set]
-    [tech.droit.index ABox]
+    [tech.droit.fset.index ABox]
     [java.lang Iterable]
     [clojure.lang
      ILookup

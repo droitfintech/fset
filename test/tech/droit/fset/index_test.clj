@@ -1,9 +1,9 @@
-(ns tech.droit.index-test
+(ns tech.droit.fset.index-test
   (:import [java.util Map])
   (:require
     [clojure.test :refer :all]
     [criterium.core :refer [bench quick-bench quick-benchmark]]
-    [tech.droit.index :as index]
+    [tech.droit.fset.index :as index]
     [tech.droit.fset :as fset]))
 
 (deftest key-for-values-test

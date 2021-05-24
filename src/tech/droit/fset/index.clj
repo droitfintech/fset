@@ -1,4 +1,4 @@
-(ns tech.droit.index
+(ns tech.droit.fset.index
   (:import
     [java.util Arrays Map HashMap ArrayList]))
 
@@ -12,7 +12,7 @@
     (Arrays/hashCode a)))
 
 ;; Pretty print ABox
-(defmethod print-method tech.droit.index.ABox
+(defmethod print-method tech.droit.fset.index.ABox
   [^ABox abox ^java.io.StringWriter writer]
   (.append writer (str "abox" (into [] (.a abox)))))
 
