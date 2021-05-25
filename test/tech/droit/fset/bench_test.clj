@@ -1,8 +1,8 @@
-(ns fset.bench
+(ns tech.droit.fset.bench-test
   (:require
     [clojure.test :refer :all]
     [criterium.core :refer [bench quick-bench quick-benchmark benchmark]]
-    [fset.core :as fset]
+    [tech.droit.fset :as fset]
     [clojure.set :as cset]))
 
 (defmacro b [expr] `(first (:mean (quick-benchmark ~expr {}))))

@@ -1,11 +1,12 @@
-(ns fset.core-test
+(ns tech.droit.fset-test
   (:require
     [clojure.test.check.clojure-test :refer [defspec]]
     [clojure.test.check.generators :as gen]
     [clojure.test.check.properties :as prop]
     [clojure.set :as cset]
     [clojure.string :as string]
-    [fset.core :as fset]))
+    [clojure.test :refer :all]
+    [tech.droit.fset :as fset]))
 
 (def gen-v (gen/vector gen/char-alpha 4 20))
 (def gen-str (gen/fmap string/join gen-v))
@@ -101,3 +102,6 @@
     [m (instance (into (range 400) (gen/sample gen-kw)))
      kmap (instance (into (range 30) (gen/sample gen-kw)))]
     (= (cset/rename-keys m kmap) (fset/rename-keys m kmap))))
+
+(deftest select-keys-test
+  (is (= {:a 1 :b 2} (fset/select-keys {:a 1 :b 2 :c 3} [:a :b]))))
