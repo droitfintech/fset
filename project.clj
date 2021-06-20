@@ -12,4 +12,8 @@
                               :creds :gpg}]]
   :profiles
   {:dev {:dependencies [[org.clojure/test.check "1.1.0"]
-                        [criterium "0.4.6"]]}})
+                        [criterium "0.4.6"]]}}
+  :test-selectors
+  {:default #(not (some #{:bench} (cons (:tag %) (keys %))))
+   :bench :bench
+   :all (constantly true)})
