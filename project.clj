@@ -7,6 +7,9 @@
   :repl-options {:init-ns tech.droit.fset
                  :timeout 5000000}
   :global-vars {*warn-on-reflection* true}
+
+  :repositories [["releases" {:url "https://repo.clojars.org"
+                              :creds :gpg}]]
   :profiles
   {:dev {:dependencies [[org.clojure/test.check "1.1.0"]
                         [criterium "0.4.6"]]}})
