@@ -10,7 +10,7 @@ The library also includes functions with a different interface to those in `cloj
 
 ## Usage
 
-Add `[fset 0.1.1]` to your dependencies and then:
+Add `[tech.droit/fset "0.1.1"]` to your dependencies and then:
 
 ```clojure
 (require '[tech.droit.fset :as fset]
