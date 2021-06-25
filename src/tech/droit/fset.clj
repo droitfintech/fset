@@ -209,16 +209,24 @@
    (if (< (count s2) (count s1))
      (recur s2 s1)
      (let [^Iterator items (.iterator ^Iterable s1)]
-       (loop [^ITransientSet out (.asTransient s1)]
-         (if (.hasNext items)
-           (let [item (.next items)]
-             (if (.contains s2 item)
-               (recur out)
-               (recur (.disjoin out item))))
-           (.persistent out))))))
-([s1 s2 & sets]
- (let [bubbled-sets (#'cset/bubble-max-key #(- (count %)) (conj sets s2 s1))]
-   (reduce intersection (first bubbled-sets) (rest bubbled-sets)))))
+       (if (instance? IEditableCollection s1)
+         (loop [^ITransientSet out (.asTransient s1)]
+           (if (.hasNext items)
+             (let [item (.next items)]
+               (if (.contains s2 item)
+                 (recur out)
+                 (recur (.disjoin out item))))
+             (.persistent out)))
+         (loop [^IPersistentSet out s1]
+           (if (.hasNext items)
+             (let [item (.next items)]
+               (if (.contains s2 item)
+                 (recur out)
+                 (recur (.disjoin out item))))
+             out))))))
+  ([s1 s2 & sets]
+   (let [bubbled-sets (#'cset/bubble-max-key #(- (count %)) (conj sets s2 s1))]
+     (reduce intersection (first bubbled-sets) (rest bubbled-sets)))))
 
 (defn intersection*
   "Like clojure.set/intersection, but returns a java.util.HashSet"
@@ -234,32 +242,51 @@
   "Faster version of clojure.set/difference."
   ([s1] s1)
   ([^PersistentHashSet s1 ^PersistentHashSet s2]
-     (if (< (.size s1) (.size s2))
-       (let [^Iterator items (.iterator s1)]
+   (if (< (.size s1) (.size s2))
+     (let [^Iterator items (.iterator s1)]
+       (if (instance? IEditableCollection s1)
          (loop [^ITransientSet out (.asTransient s1)]
            (if (.hasNext items)
              (let [item (.next items)]
                (recur (if (.contains s2 item)
                         (.disjoin out item)
                         out)))
-             (.persistent out))))
-       (let [^Iterator items (.iterator s2)]
+             (.persistent out)))
+         (loop [^IPersistentSet out s1]
+           (if (.hasNext items)
+             (let [item (.next items)]
+               (recur (if (.contains s2 item)
+                        (.disjoin out item)
+                        out)))
+             out))))
+     (let [^Iterator items (.iterator s2)]
+       (if (instance? IEditableCollection s1)
          (loop [^ITransientSet out (.asTransient s1)]
            (if (.hasNext items)
              (recur (.disjoin out (.next items)))
-             (.persistent out))))))
+             (.persistent out)))
+         (loop [^IPersistentSet out s1]
+           (if (.hasNext items)
+             (recur (.disjoin out (.next items)))
+             out))))))
   ([s1 s2 & sets]
-     (reduce difference s1 (conj sets s2))))
+   (reduce difference s1 (conj sets s2))))
 
 (defn select
   "Faster version of clojure.set/select"
   [pred ^PersistentHashSet s]
   (let [^Iterator items (.iterator s)]
-    (loop [^ITransientSet out (.asTransient s)]
-      (if (.hasNext items)
-        (let [item (.next items)]
-          (recur (if (pred item) out (.disjoin out item))))
-        (.persistent out)))))
+    (if (instance? IEditableCollection s)
+      (loop [^ITransientSet out (.asTransient s)]
+        (if (.hasNext items)
+          (let [item (.next items)]
+            (recur (if (pred item) out (.disjoin out item))))
+          (.persistent out)))
+      (loop [^IPersistentSet out s]
+        (if (.hasNext items)
+          (let [item (.next items)]
+            (recur (if (pred item) out (.disjoin out item))))
+          out)))))
 
 (defn project*
   "Version of clojure.set/project supporting specific arities for keys.
