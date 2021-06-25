@@ -127,6 +127,10 @@ Index (~33% speedup):
 3.57E-7 (fset/kset rel)
 ```
 
+## Contributors
+
+* [Dmitry Zhus](https://github.com/dzhus) generative testing suite
+
 ## License
 
 Copyright © 2021 Droit Financial Technologies

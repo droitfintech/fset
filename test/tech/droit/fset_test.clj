@@ -1,4 +1,5 @@
 (ns tech.droit.fset-test
+  "Thanks Dmitry Dzhus @dzhus for contributing the initial set of generative tests."
   (:require
     [clojure.test.check.clojure-test :refer [defspec]]
     [clojure.test.check.generators :as gen]
