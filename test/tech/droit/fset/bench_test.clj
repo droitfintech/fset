@@ -112,9 +112,12 @@
 
 (deftest ^:bench intersection-bench
   (let [s1 (set (range 1 40))
-        s2 (set (range 30 80))]
+        s2 (set (range 30 80))
+        ss1 (apply sorted-set s1)
+        ss2 (apply sorted-set s2)]
     (is (= (cset/intersection s1 s2) (fset/intersection s1 s2)))
     (is (= (cset/intersection s1 s2) (fset/intersection* s1 s2)))
+    (is (= (cset/intersection ss1 ss2) (fset/intersection* ss1 ss2)))
     ; 6.989154524230326E-6 cset
     ; 3.640919193885645E-6 intersection (compatible)
     (is
@@ -122,6 +125,13 @@
         (println
           (b (cset/intersection s1 s2))
           (str "cset\n" (b (fset/intersection s1 s2)) " intersection (compatible)\n"))))
+    ; 9.937802765155177E-6 sorted cset
+    ; 7.90225522716554E-6 sorted intersection (compatible)
+    (is
+      (nil?
+        (println
+          (b (cset/intersection ss1 ss2))
+          (str "sorted cset\n" (b (fset/intersection ss1 ss2)) " sorted intersection (compatible)\n"))))
     ; 6.842457065677723E-6 cset
     ; 3.2923806294768446E-6 intersection (native)
     (is
@@ -132,8 +142,11 @@
 
 (deftest ^:bench difference-bench
   (let [s1 (set (range 1 50))
-        s2 (set (range 30 800))]
+        s2 (set (range 30 800))
+        ss1 (apply sorted-set s1)
+        ss2 (apply sorted-set s2)]
     (is (= (cset/difference s1 s2) (fset/difference s1 s2)))
+    (is (= (cset/difference ss1 ss2) (fset/difference ss1 ss2)))
     ; 6.65E-6 cset
     ; 3.94E-6 fset
     (is
@@ -141,6 +154,13 @@
         (println
           (b (cset/difference s1 s2))
           (str "cset\n" (b (fset/difference s1 s2)) " difference\n"))))
+    ; 1.4298325121443442E-5 sorted cset
+    ; 1.132363716780562E-5 sorted difference
+    (is
+      (nil?
+        (println
+          (b (cset/difference ss1 ss2))
+          (str "sorted cset\n" (b (fset/difference ss1 ss2)) " sorted difference\n"))))
     ; 5.0338101960004635E-6 cset
     ; 3.4274965213695293E-6 difference
     (is
@@ -154,10 +174,19 @@
                 {d d2 c c2 a a2 b b3} {d d2 c c3 a a2 b b3}
                 {d d3 c c3 a a3 b b2} {d d3 c c2 a a1 b b2}
                 {d d3 c c3 a a2 b b1} {d d3 c c1 a a3 b b1}}
+        ss (apply sorted-set (range 100))
         pred (comp #{'a3} 'a)]
     (is (= (cset/select pred xrel) (fset/select pred xrel)))
-     ; 2.44818399082862E-6 cset
-     ; 1.8558549234948711E-6 select
+    (is (= (cset/select odd? ss) (fset/select odd? ss)))
+    ; 1.5927641938447406E-5 sorted cset
+    ; 1.4375441919551693E-5 sorted select
+    (is
+      (nil?
+        (println
+          (b (cset/select even? ss))
+          (str "sorted cset\n" (b (fset/select even? ss)) " sorted select\n"))))
+    ; 2.44818399082862E-6 cset
+    ; 1.8558549234948711E-6 select
     (is
       (nil?
         (println
