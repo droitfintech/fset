@@ -118,12 +118,14 @@
   Note: differently from core/select-keys, it doesn't retain metadata.
   TODO: generative comparison with core/select-keys."
   [m ^Iterable ks]
-  (let [^Iterator items (.iterator ks)]
-    (loop [out (.asTransient PersistentHashMap/EMPTY)]
-      (if (.hasNext items)
-        (let [entry (clojure.lang.RT/find m (.next items))]
-          (recur (if entry (.conj out entry) out)))
-        (.persistent out)))))
+  (if ks
+    (let [^Iterator items (.iterator ks)]
+      (loop [out (.asTransient PersistentHashMap/EMPTY)]
+        (if (.hasNext items)
+          (let [entry (clojure.lang.RT/find m (.next items))]
+            (recur (if entry (.conj out entry) out)))
+          (.persistent out))))
+    {}))
 
 (defn union
   "Like core.set/union but with arities optimizations."
