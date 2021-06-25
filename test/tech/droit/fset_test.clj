@@ -14,7 +14,7 @@
 (def gen-sym (gen/fmap symbol gen-str))
 (def gen-kw (gen/fmap keyword gen-str))
 
-(defn instance
+(defn relation-instance
   [ks]
   (apply gen/hash-map
          (interleave ks
@@ -25,7 +25,14 @@
   ([] (relation (gen/sample gen-sym)))
   ([ks]
    (gen/set
-     (instance ks)
+     (relation-instance ks)
+     {:min-elements 2 :max-elements 10})))
+
+(defn sorted-instance
+  ([] (sorted-instance gen-str))
+  ([gen]
+   (gen/sorted-set
+     gen
      {:min-elements 2 :max-elements 10})))
 
 (def ^:const rep 100)
@@ -46,27 +53,32 @@
 (defspec intersection-correctness
   rep
   (prop/for-all [r1 (relation)
-                 r2 (relation)]
-                (let [instance (first r1)
-                      r2 (conj r2 instance)]
-                  (= #{instance}
+                 r2 (relation)
+                 sr1 (sorted-instance gen/small-integer)
+                 sr2 (sorted-instance gen/small-integer)]
+                (= (fset/intersection sr1 sr2) (cset/intersection sr1 sr2))
+                (let [relation-instance (first r1)
+                      r2 (conj r2 relation-instance)]
+                  (= #{relation-instance}
                      (cset/intersection r1 r2)
                      (fset/intersection r1 r2)))))
 
 (defspec difference-correctness
   rep
   (prop/for-all
-    [r1 (relation) r2 (relation)]
+    [r1 (relation) r2 (relation) sr1 (sorted-instance) sr2 (sorted-instance)]
     (and (= (cset/difference r1 r2) (fset/difference r1 r2))
          (= (cset/difference r2 r1) (fset/difference r2 r1))
-         (= #{} (cset/difference r1 r1) (fset/difference r1 r1)))))
+         (= #{} (cset/difference r1 r1) (fset/difference r1 r1))
+         (= (cset/difference sr1 sr2) (fset/difference sr1 sr2)))))
 
 (defspec select-correctness
   rep
   (prop/for-all
-    [r1 (relation)]
+    [r1 (relation) sr (sorted-instance gen/small-integer)]
     (let [pred (comp #(> (count %) 3) #(filter keyword? %) vals)]
-      (= (cset/select pred r1) (fset/select pred r1)))))
+      (= (cset/select pred r1) (fset/select pred r1))
+      (= (cset/select odd? sr) (fset/select odd? sr)))))
 
 (defspec project-correctness
   rep
@@ -100,8 +112,8 @@
 (defspec rename-keys-correctness
   rep
   (prop/for-all
-    [m (instance (into (range 400) (gen/sample gen-kw)))
-     kmap (instance (into (range 30) (gen/sample gen-kw)))]
+    [m (relation-instance (into (range 400) (gen/sample gen-kw)))
+     kmap (relation-instance (into (range 30) (gen/sample gen-kw)))]
     (= (cset/rename-keys m kmap) (fset/rename-keys m kmap))))
 
 (deftest select-keys-test
