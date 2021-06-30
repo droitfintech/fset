@@ -24,14 +24,26 @@
                 {d d2 c c2 a a2 b b3} {d d2 c c3 a a2 b b3}
                 {d d3 c c3 a a3 b b2} {d d3 c c2 a a1 b b2}
                 {d d3 c c3 a a2 b b1} {d d3 c c1 a a3 b b1}}]
+    (is (= (into #{} (map inc (set (range 100)))) (fset/maps inc (set (range 100)))))
     (is (= (into #{} (map #(assoc % :new 0) xrel)) (fset/maps #(assoc % :new 0) xrel)))
+    ; 2.720073097731239E-4 core map over set
+    ; 1.6059608771929826E-4 fset (maps)
+    (is
+      (nil?
+        (println
+          (let [s (set (range 1000))]
+            (str (b (into #{} (map inc s)))
+                 " core map over set \n"
+                 (b (fset/maps inc s))
+                 " fset (maps)\n")))))
     ; 5.3075209319225114E-6 core into set
     ; 3.256621217417093E-6 fset (maps)
     (is
       (nil?
         (println
-          (let [f #(assoc % :new 0)] (b (into #{} (map f xrel))))
-          (str "core into set\n" (let [f #(assoc % :new 0)] (b (fset/maps f xrel))) " fset (maps)\n"))))))
+          (let [f #(assoc % :new 0)]
+            (b (into #{} (map f xrel)))
+            (str "core into set\n" (b (fset/maps f xrel)) " fset (maps)\n")))))))
 
 (deftest ^:bench select-keys-test
   (let [m (zipmap (range 100) (range 100 200))
@@ -44,7 +56,7 @@
       (nil?
         (println
           (b (select-keys m ks))
-          (str "core\n" (b (fset/select-keys m ks)) " fset (select-keys)\n"))))
+          (str " core\n" (b (fset/select-keys m ks)) " fset (select-keys)\n"))))
     ; 8.155316297166944E-7 core
     ; 4.1558029460823247E-7 fset (select-key)
     (is

@@ -106,11 +106,12 @@ Index (~33% speedup):
 1.88E-6 fset
 ```
 
-`fset/maps` (map over sets). There is no corresponding single function in `clojure.set` for this, but closest `clojure.core` expression is shown below (~40% speedup):
+`fset/maps` (map over sets). There is no corresponding single function in `clojure.set` for this, but closest `clojure.core` expression is shown below (~58% speedup):
 
 ```clojure
-5.30E-6 (into #{} (map #(assoc % :new 0) xrel))
-3.25E-6 (fset/maps #(assoc % :new 0) xrel)
+2.72E-4 (into #{} (map inc xs))
+1.60E-4 fset (fset/maps inc xs)
+
 ```
 
 `clojure.core/select-keys` has been re-implemented in `fset` (~ 55% speedup):
