@@ -106,7 +106,7 @@ Index (~33% speedup):
 1.88E-6 fset
 ```
 
-`fset/maps` (map over sets). There is no corresponding single function in `clojure.set` for this, but closest `clojure.core` expression is shown below (~58% speedup):
+`fset/maps` (map over sets). There is no corresponding single function in `clojure.set` for this, but closest `clojure.core` expression is shown below (~42% speedup):
 
 ```clojure
 (def xs (set (range 1000)))
