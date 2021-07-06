@@ -122,7 +122,7 @@ Index (~33% speedup):
 1.09E-6 fset (select-keys)
 ```
 
-`kset` is also new: given a relation (a set of maps with the same keys) find the set of keys repeating in each map:
+`kset` is also new: given a relation (a set of maps with the same keys) find the set of keys repeating in each map (~ 44% speedup):
 
 ```clojure
 6.31E-7 (set (keys (first rel)))
