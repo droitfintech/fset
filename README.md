@@ -131,6 +131,8 @@ Index (~33% speedup):
 
 ## Contributors
 
+Many thanks to:
+
 * [Dmitry Zhus](https://github.com/dzhus) generative testing suite
 
 ## License
