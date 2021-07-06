@@ -3,7 +3,7 @@
     [java.util Arrays Map HashMap ArrayList]))
 
 ;; Wrapper around an object array instance to
-;; redefine hasCode and equals to use in hash-map keys.
+;; redefine hashCode and equals to use in hash-map keys.
 (deftype ABox [^objects a]
   Object
   (equals [this other]
