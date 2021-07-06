@@ -77,10 +77,18 @@
         s5 '#{{d d3 c c9 a a1 b b2} {d d3 c c3 a a21 b b1}
               {d d3 c c11 a a3 b b1} {d d10} {c c14} {a a21} {a a22}}]
     (is (= (cset/union s1 s2) (fset/union s1 s2)))
-    ; 2.072722684685433E-6 cset
-    ; 1.336075779224572E-6 fset
-    (is (nil? (println (b (cset/union s1 s2)) (str "cset\n" (b (fset/union s1 s2)) " fset (union)\n"))))
+    (is (= (cset/union s1 s2 s3) (fset/union s1 s2 s3)))
+    (is (= (cset/union s1 s2 s3 s4) (fset/union s1 s2 s3 s4)))
+    (is (= (cset/union s1 s2 s3 s4 s5) (fset/union s1 s2 s3 s4 s5)))
+
+    ; 1.8079193418058454E-6 cset
+    ; 0.9658104685847386E-6 fset (union)
+    ; (is (nil? (println (b (cset/union s1 s2)) (str "cset\n" (b (fset/union s1 s2)) " fset (union)\n"))))
+
+    ; 2.2575491533853774E-6 cset
+    ; 1.45369902375777E-6 fset
     ; (is (nil? (println (b (cset/union s1 s2 s3)) (str "cset\n" (b (fset/union s1 s2 s3)) " fset\n"))))
+
     ; (is (nil? (println (b (cset/union s1 s2 s3 s4)) (str "cset\n" (b (fset/union s1 s2 s3 s4)) " fset\n"))))
     ; (is (nil? (println (b (cset/union s1 s2 s3 s4 s5)) (str "cset\n" (b (fset/union s1 s2 s3 s4 s5)) " fset\n"))))
     ; (is (nil? (println (b (cset/union s1 s2 s3 s4 s5 #{})) (str "cset\n" (b (fset/union s1 s2 s3 s4 s5 #{})) " fset (union)\n"))))
@@ -130,8 +138,8 @@
     (is (= (cset/intersection s1 s2) (fset/intersection s1 s2)))
     (is (= (cset/intersection s1 s2) (fset/intersection* s1 s2)))
     (is (= (cset/intersection ss1 ss2) (fset/intersection* ss1 ss2)))
-    ; 6.989154524230326E-6 cset
-    ; 3.640919193885645E-6 intersection (compatible)
+    ; 7.1893204992967655E-6 cset
+    ; 4.322495438183127E-6 intersection (compatible)
     (is
       (nil?
         (println
@@ -139,14 +147,14 @@
           (str "cset\n" (b (fset/intersection s1 s2)) " intersection (compatible)\n"))))
     ; 9.937802765155177E-6 sorted cset
     ; 7.90225522716554E-6 sorted intersection (compatible)
-    (is
+    #_(is
       (nil?
         (println
           (b (cset/intersection ss1 ss2))
           (str "sorted cset\n" (b (fset/intersection ss1 ss2)) " sorted intersection (compatible)\n"))))
     ; 6.842457065677723E-6 cset
     ; 3.2923806294768446E-6 intersection (native)
-    (is
+    #_(is
       (nil?
         (println
           (b (cset/intersection s1 s2))
@@ -159,8 +167,8 @@
         ss2 (apply sorted-set s2)]
     (is (= (cset/difference s1 s2) (fset/difference s1 s2)))
     (is (= (cset/difference ss1 ss2) (fset/difference ss1 ss2)))
-    ; 6.65E-6 cset
-    ; 3.94E-6 fset
+    ; 7.335592370838982E-6 cset
+    ; 4.132627737969221E-6 difference
     (is
       (nil?
         (println
@@ -168,14 +176,14 @@
           (str "cset\n" (b (fset/difference s1 s2)) " difference\n"))))
     ; 1.4298325121443442E-5 sorted cset
     ; 1.132363716780562E-5 sorted difference
-    (is
+    #_(is
       (nil?
         (println
           (b (cset/difference ss1 ss2))
           (str "sorted cset\n" (b (fset/difference ss1 ss2)) " sorted difference\n"))))
     ; 5.0338101960004635E-6 cset
     ; 3.4274965213695293E-6 difference
-    (is
+    #_(is
       (nil?
         (println
           (b (cset/difference s2 s1))

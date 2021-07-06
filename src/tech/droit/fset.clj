@@ -10,6 +10,7 @@
      ILookup
      IEditableCollection
      ITransientCollection
+     IPersistentCollection
      PersistentHashSet
      PersistentArrayMap
      PersistentHashMap
@@ -127,16 +128,24 @@
           (.persistent out))))
     {}))
 
+
 (defn union
   "Like core.set/union but with arities optimizations."
   ([] #{})
   ([s1] s1)
-  ([s1 s2]
-   (let [c1 (count s1) c2 (count s2)
-         maxc (max c1 c2)]
-     (if (== maxc c1)
-       (persistent! (reduce conj! (transient s1) s2))
-       (persistent! (reduce conj! (transient s2) s1)))))
+  ([^IEditableCollection s1 ^IPersistentSet s2]
+   (if (< (count s1) (count s2))
+     (recur s2 s1)
+     (let [^Iterator items (.iterator ^Iterable s2)]
+       (if (instance? IEditableCollection s1)
+         (loop [^ITransientSet s (.asTransient s1)]
+           (if (.hasNext items)
+             (recur (.conj s (.next items)))
+             (.persistent s)))
+         (loop [^IPersistentCollection s s1]
+           (if (.hasNext items)
+             (recur (.cons s (.next items)))
+             s))))))
   ([s1 s2 s3]
    (let [c1 (count s1) c2 (count s2) c3 (count s3)
          maxc (max c1 c2 c3)]

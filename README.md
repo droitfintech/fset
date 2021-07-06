@@ -30,25 +30,25 @@ Some comparison with `clojure.core/set` functions as measured in `test/fset/benc
 
 ### Set functions
 
-Union (~35% speedup):
+Union (~46% speedup):
 
 ```clojure
-2.07E-6 cset
-1.33E-6 fset
+1.80E-6 cset
+0.96E-6 fset (union)
 ```
 
-Intersection (~50% speedup):
+Intersection (~43% speedup):
 
 ```clojure
-6.98E-6 cset
-3.64E-6 fset
+7.4855E-6 cset
+4.2227E-6 intersection (compatible)
 ```
 
-Difference (~30% speedup):
+Difference (~43% speedup):
 
 ```clojure
-5.03E-6 cset
-3.42E-6 fset
+7.33E-6 cset
+4.13E-6 difference
 ```
 
 Subset? (~80% speedup):
