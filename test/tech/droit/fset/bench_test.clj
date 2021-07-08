@@ -81,12 +81,12 @@
     (is (= (cset/union s1 s2 s3 s4) (fset/union s1 s2 s3 s4)))
     (is (= (cset/union s1 s2 s3 s4 s5) (fset/union s1 s2 s3 s4 s5)))
 
-    ; 1.8079193418058454E-6 cset
-    ; 0.9658104685847386E-6 fset (union)
+    ; 2.3562738773283106E-6 cset
+    ; 1.1675215159560017E-6 fset (union)
     ; (is (nil? (println (b (cset/union s1 s2)) (str "cset\n" (b (fset/union s1 s2)) " fset (union)\n"))))
 
     ; 2.2575491533853774E-6 cset
-    ; 1.45369902375777E-6 fset
+    ; 1.65369902375777E-6 fset
     ; (is (nil? (println (b (cset/union s1 s2 s3)) (str "cset\n" (b (fset/union s1 s2 s3)) " fset\n"))))
 
     ; (is (nil? (println (b (cset/union s1 s2 s3 s4)) (str "cset\n" (b (fset/union s1 s2 s3 s4)) " fset\n"))))
