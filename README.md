@@ -8,6 +8,11 @@ The library also includes functions with a different interface to those in `cloj
 
 `fset` also implements other non-set related functions from `clojure.core` when they are instrumental to improve performance for those in `clojure.set` (this is the case of `fset/select-keys` for example).
 
+For additional info, watch this talk at the *London Clojurians Meetup*:
+
+[![FSet: a faster set library](https://img.youtube.com/vi/vE8d-tXOuXo/0.jpg)](https://www.youtube.com/watch?v=vE8d-tXOuXo)
+
+
 ## Usage
 
 Add `[tech.droit/fset "0.1.1"]` to your dependencies and then:
